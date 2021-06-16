@@ -1,0 +1,12 @@
+{
+  "customers": [
+    {
+      "name": "Roger",
+      "adress": "gatan"
+    },
+    {
+      "name": "Nisse",
+      "adress": "vägen"
+    }
+  ]
+}

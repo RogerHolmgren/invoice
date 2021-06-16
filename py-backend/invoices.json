@@ -1,0 +1,14 @@
+{
+  "invoices": [
+    {
+      "invoice_nr": 1,
+      "name": "Roger",
+      "adress": "gatan"
+    },
+    {
+      "invoice_nr": 2,
+      "name": "Nisse",
+      "adress": "vägen"
+    }
+  ]
+}
