@@ -1,39 +1,20 @@
 import textwrap
 
-from PyQt5.QtCore import QObject, QRunnable, pyqtSignal, pyqtSlot
-
 from reportlab.pdfgen.canvas import Canvas
 from datetime import datetime
 from pdfrw import PdfReader
 from pdfrw.buildxobj import pagexobj
 from pdfrw.toreportlab import makerl
 
-# https://www.learnpyqt.com/examples/python-pdf-report-generator/
-
-class WorkerSignals(QObject):
+class Generator():
     """
-    Defines the signals available from a running worker thread.
-    """
-    error = pyqtSignal(str)
-    file_saved_as = pyqtSignal(str)
-
-
-class Generator(QRunnable):
-    """
-    Worker thread
-
-    Inherits from QRunnable to handle worker thread setup, signals
-    and wrap-up.
-
     :param data: The data to add to the PDF for generating.
     """
 
     def __init__(self, data):
         super().__init__()
         self.data = data
-        self.signals = WorkerSignals()
 
-    @pyqtSlot()
     def run(self):
         try:
             template = PdfReader("resources/FakturaTemplate.pdf",
@@ -80,8 +61,5 @@ class Generator(QRunnable):
             canvas.save()
 
         except Exception as e:
-            self.signals.error.emit(str(e))
+            print(e)
             return
-
-        self.signals.file_saved_as.emit(outfile)
-
