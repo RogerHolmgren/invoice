@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block name %}Kundlista{% endblock %}</h1>
+    <a class="action" href="{{ url_for('customers.create') }}">Lägg upp ny kund</a>
+{% endblock %}
+
+{% block content %}
+  {% for customers in customers %}
+    <article class="customers">
+      <header>
+        <div>
+          <h1>{{ customers['name'] }}</h1>
+          <div class="about">by {{ customers['name'] }} on {{ customers['created'].strftime('%Y-%m-%d') }}</div>
+        </div>
+          <a class="action" href="{{ url_for('customers.update', id=customers['id']) }}">Ändra</a>
+      </header>
+      <p class="body">{{ customers['address'] }}</p>
+    </article>
+    {% if not loop.last %}
+      <hr>
+    {% endif %}
+  {% endfor %}
+{% endblock %}

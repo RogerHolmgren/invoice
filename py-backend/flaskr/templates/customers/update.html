@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Edit "{{ cust['name'] }}"{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+  <form method="post">
+    <label for="name">Namn</label>
+    <input name="name" id="name"
+      value="{{ request.form['name'] or cust['name'] }}" required>
+    <label for="address">Adress</label>
+    <textarea name="address" id="address">{{ request.form['address'] or cust['address'] }}</textarea>
+    <input type="submit" value="Save">
+  </form>
+  <hr>
+  <form action="{{ url_for('customers.delete', id=cust['id']) }}" method="post">
+    <input class="danger" type="submit" value="Delete" onclick="return confirm('Vill du verkligen ta bort en kund?');">
+  </form>
+{% endblock %}

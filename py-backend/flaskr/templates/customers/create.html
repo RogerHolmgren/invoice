@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block name %}Lägg upp ny kund{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+  <form method="post">
+    <label for="name">Namn</label>
+    <input name="name" id="name" value="{{ request.form['name'] }}" required>
+    <label for="address">Adress</label>
+    <input name="address" id="address">{{ request.form['address'] }}</textarea>
+    <input type="submit" value="Spara">
+  </form>
+{% endblock %}
