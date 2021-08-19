@@ -12,8 +12,8 @@ bp = Blueprint('blog', __name__)
 def index():
     db = get_db()
     posts = db.execute(
-        'SELECT p.id, title, body, created, author_id, username'
-        ' FROM post p JOIN user u ON p.author_id = u.id'
+        'SELECT id, title, body, created'
+        ' FROM post'
         ' ORDER BY created DESC'
     ).fetchall()
     return render_template('blog/index.html', posts=posts)
@@ -34,9 +34,9 @@ def create():
         else:
             db = get_db()
             db.execute(
-                'INSERT INTO post (title, body, author_id)'
-                ' VALUES (?, ?, ?)',
-                (title, body, g.user['id'])
+                'INSERT INTO post (title, body)'
+                ' VALUES (?, ?)',
+                (title, body)
             )
             db.commit()
             return redirect(url_for('blog.index'))
@@ -46,17 +46,14 @@ def create():
 
 def get_post(id, check_author=True):
     post = get_db().execute(
-        'SELECT p.id, title, body, created, author_id, username'
-        ' FROM post p JOIN user u ON p.author_id = u.id'
-        ' WHERE p.id = ?',
+        'SELECT id, title, body, created'
+        ' FROM post'
+        ' WHERE id = ?',
         (id,)
     ).fetchone()
 
     if post is None:
         abort(404, f"Post id {id} doesn't exist.")
-
-    if check_author and post['author_id'] != g.user['id']:
-        abort(403)
 
     return post
 
@@ -95,11 +92,3 @@ def delete(id):
     db.execute('DELETE FROM post WHERE id = ?', (id,))
     db.commit()
     return redirect(url_for('blog.index'))
-
-
-
-@bp.before_app_request
-def load_hardcoded_user():
-    g.user = get_db().execute(
-        'SELECT * FROM user WHERE id = ?', (1,)
-    ).fetchone()

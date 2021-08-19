@@ -25,4 +25,4 @@ htmlcov/
 .coverage.*
 *,cover
 
-instance/
+instance

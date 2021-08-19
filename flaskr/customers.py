@@ -83,11 +83,3 @@ def delete(id):
     db.execute('DELETE FROM customer WHERE id = ?', (id,))
     db.commit()
     return redirect(url_for('customers.index'))
-
-
-
-@bp.before_app_request
-def load_hardcoded_user():
-    g.user = get_db().execute(
-        'SELECT * FROM user WHERE id = ?', (1,)
-    ).fetchone()
