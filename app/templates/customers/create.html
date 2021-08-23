@@ -6,10 +6,21 @@
 
 {% block content %}
   <form method="post">
+    <label for="cust_number">Kundnummer</label>
+    <input name="cust_number" id="cust_number" value="{{ request.form['cust_number'] }}" required>
+
     <label for="name">Namn</label>
     <input name="name" id="name" value="{{ request.form['name'] }}" required>
+
     <label for="address">Adress</label>
-    <input name="address" id="address">{{ request.form['address'] }}</textarea>
+    <input name="address" id="address">{{ request.form['address'] }}</input>
+
+    <label for="postal_number">Postnummer</label>
+    <input name="postal_number" id="postal_number">{{ request.form['postal_number'] }}</input>
+
+    <label for="postal_address">Postadress</label>
+    <input name="postal_address" id="postal_address">{{ request.form['postal_address'] }}</input>
+
     <input type="submit" value="Spara">
   </form>
 {% endblock %}
