@@ -1,2 +1,4 @@
 pdfrw==0.4
 reportlab==3.5.68
+flask
+pytest

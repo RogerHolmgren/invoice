@@ -5,7 +5,7 @@ from flask import Flask
 
 def create_app(test_config=None):
     # create and configure the app
-    app = Flask(__name__, instance_relative_config=True)
+    app = Flask(__name__)
     app.config.from_mapping(
         SECRET_KEY='dev',
         DATABASE=os.path.join(app.instance_path, 'flaskr.sqlite'),
@@ -24,19 +24,14 @@ def create_app(test_config=None):
     except OSError:
         pass
 
-    # a simple page that says hello
-    @app.route('/hello')
-    def hello():
-        return 'Hello, World!'
-
-    from . import db
+    from flaskr import db
     db.init_app(app)
 
-    from . import blog
+    from flaskr import blog
     app.register_blueprint(blog.bp)
     app.add_url_rule('/', endpoint='index')
 
-    from . import customers
+    from flaskr import customers
     app.register_blueprint(customers.bp)
     app.add_url_rule('/', endpoint='index')
 
