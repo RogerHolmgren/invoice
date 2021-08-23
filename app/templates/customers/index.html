@@ -6,16 +6,19 @@
 {% endblock %}
 
 {% block content %}
-  {% for customers in customers %}
+  {% for customer in customers %}
     <article class="customers">
       <header>
         <div>
-          <h1>{{ customers['name'] }}</h1>
-          <div class="about">by {{ customers['name'] }} on {{ customers['created'].strftime('%Y-%m-%d') }}</div>
+          <h1>{{ customer['name'] }}</h1>
+          <div class="about">by {{ customer['name'] }} on {{ customer['created'].strftime('%Y-%m-%d') }}</div>
         </div>
-          <a class="action" href="{{ url_for('customers.update', id=customers['cust_number']) }}">Ändra</a>
+          <a class="action" href="{{ url_for('customers.update', cust_number=customer['cust_number']) }}">Ändra</a>
       </header>
-      <p class="body">{{ customers['address'] }}</p>
+      <p class="body">{{ customer['cust_number'] }}</p>
+      <p class="body">{{ customer['address'] }}</p>
+      <p class="body">{{ customer['postal_number'] }}</p>
+      <p class="body">{{ customer['postal_address'] }}</p>
     </article>
     {% if not loop.last %}
       <hr>

@@ -13,13 +13,13 @@
     <input name="name" id="name" value="{{ request.form['name'] }}" required>
 
     <label for="address">Adress</label>
-    <input name="address" id="address">{{ request.form['address'] }}</input>
+    <input name="address" id="address" value="{{ request.form['address'] }}">
 
     <label for="postal_number">Postnummer</label>
-    <input name="postal_number" id="postal_number">{{ request.form['postal_number'] }}</input>
+    <input name="postal_number" id="postal_number" value="{{ request.form['postal_number'] }}">
 
     <label for="postal_address">Postadress</label>
-    <input name="postal_address" id="postal_address">{{ request.form['postal_address'] }}</input>
+    <input name="postal_address" id="postal_address" value="{{ request.form['postal_address'] }}">
 
     <input type="submit" value="Spara">
   </form>
