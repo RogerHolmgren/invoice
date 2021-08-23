@@ -3,56 +3,64 @@ from flask import (
 )
 from werkzeug.exceptions import abort
 
-from flaskr.db import get_db
+from app.db import get_db
 
-bp = Blueprint('customers', __name__, url_prefix='/customers')
+bp = Blueprint('blog', __name__)
+
 
 @bp.route('/')
 def index():
     db = get_db()
-    customers = db.execute(
-        'SELECT id, name, address, created'
-        ' FROM customer'
+    posts = db.execute(
+        'SELECT id, title, body, created'
+        ' FROM post'
         ' ORDER BY created DESC'
     ).fetchall()
-    return render_template('customers/index.html', customers=customers)
+    return render_template('blog/index.html', posts=posts)
+
 
 @bp.route('/create', methods=('GET', 'POST'))
 def create():
     if request.method == 'POST':
-        name = request.form['name']
-        address = request.form['address']
+        title = request.form['title']
+        body = request.form['body']
         error = None
 
-        if not name:
-            error = 'Måste ha namn.'
+        if not title:
+            error = 'Title is required.'
 
         if error is not None:
             flash(error)
         else:
             db = get_db()
             db.execute(
-                'INSERT INTO customer (name, address)'
+                'INSERT INTO post (title, body)'
                 ' VALUES (?, ?)',
-                (name, address)
+                (title, body)
             )
             db.commit()
-            return redirect(url_for('customers.index'))
+            return redirect(url_for('blog.index'))
 
-    return render_template('customers/create.html')
+    return render_template('blog/create.html')
 
-def get_post(id):
-    return get_db().execute(
-                'SELECT id, name, address, created'
-                ' FROM customer'
-                ' WHERE id = ?',
-                (id,)
-            ).fetchone()
+
+def get_post(id, check_author=True):
+    post = get_db().execute(
+        'SELECT id, title, body, created'
+        ' FROM post'
+        ' WHERE id = ?',
+        (id,)
+    ).fetchone()
+
+    if post is None:
+        abort(404, f"Post id {id} doesn't exist.")
+
+    return post
 
 
 @bp.route('/<int:id>/update', methods=('GET', 'POST'))
 def update(id):
-    cust = get_post(id)
+    post = get_post(id)
 
     if request.method == 'POST':
         title = request.form['title']
@@ -67,19 +75,20 @@ def update(id):
         else:
             db = get_db()
             db.execute(
-                'UPDATE customer SET title = ?, body = ?'
+                'UPDATE post SET title = ?, body = ?'
                 ' WHERE id = ?',
                 (title, body, id)
             )
             db.commit()
-            return redirect(url_for('customers.index'))
+            return redirect(url_for('blog.index'))
 
-    return render_template('customers/update.html', cust=cust)
+    return render_template('blog/update.html', post=post)
+
 
 @bp.route('/<int:id>/delete', methods=('POST',))
 def delete(id):
     get_post(id)
     db = get_db()
-    db.execute('DELETE FROM customer WHERE id = ?', (id,))
+    db.execute('DELETE FROM post WHERE id = ?', (id,))
     db.commit()
-    return redirect(url_for('customers.index'))
+    return redirect(url_for('blog.index'))

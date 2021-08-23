@@ -12,6 +12,9 @@ CREATE TABLE post (
 CREATE TABLE customer (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  cust_number INTEGER NOT NULL,
   name TEXT NOT NULL,
-  address TEXT NOT NULL
+  address TEXT NOT NULL,
+  postal_number TEXT NOT NULL,
+  postal_address TEXT NOT NULL
 );

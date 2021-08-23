@@ -8,7 +8,7 @@ def create_app(test_config=None):
     app = Flask(__name__)
     app.config.from_mapping(
         SECRET_KEY='dev',
-        DATABASE=os.path.join(app.instance_path, 'flaskr.sqlite'),
+        DATABASE=os.path.join(app.instance_path, 'app.sqlite'),
     )
 
     if test_config is None:
@@ -24,14 +24,14 @@ def create_app(test_config=None):
     except OSError:
         pass
 
-    from flaskr import db
+    from app import db
     db.init_app(app)
 
-    from flaskr import blog
+    from app import blog
     app.register_blueprint(blog.bp)
     app.add_url_rule('/', endpoint='index')
 
-    from flaskr import customers
+    from app import customers
     app.register_blueprint(customers.bp)
     app.add_url_rule('/', endpoint='index')
 
