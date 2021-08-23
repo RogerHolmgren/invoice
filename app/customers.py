@@ -20,8 +20,11 @@ def index():
 @bp.route('/create', methods=('GET', 'POST'))
 def create():
     if request.method == 'POST':
+        cust_number = request.form['cust_number']
         name = request.form['name']
         address = request.form['address']
+        postal_number = request.form['postal_number']
+        postal_address = request.form['postal_address']
         error = None
 
         if not name:
@@ -32,9 +35,9 @@ def create():
         else:
             db = get_db()
             db.execute(
-                'INSERT INTO customer (name, address)'
-                ' VALUES (?, ?)',
-                (name, address)
+                'INSERT INTO customer (cust_number, name, address, postal_number, postal_address)'
+                ' VALUES (?, ?, ?, ?, ?)',
+                (cust_number, name, address, postal_number, postal_address)
             )
             db.commit()
             return redirect(url_for('customers.index'))
