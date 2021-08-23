@@ -10,8 +10,7 @@ CREATE TABLE post (
 
 
 CREATE TABLE customer (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  cust_number INTEGER NOT NULL,
+  cust_number INTEGER PRIMARY KEY,
   name TEXT NOT NULL,
   address TEXT NOT NULL,
   postal_number TEXT NOT NULL,

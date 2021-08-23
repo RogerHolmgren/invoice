@@ -11,7 +11,7 @@ bp = Blueprint('customers', __name__, url_prefix='/customers')
 def index():
     db = get_db()
     customers = db.execute(
-        'SELECT id, name, address, created'
+        'SELECT cust_number, name, address, created'
         ' FROM customer'
         ' ORDER BY created DESC'
     ).fetchall()
@@ -44,18 +44,18 @@ def create():
 
     return render_template('customers/create.html')
 
-def get_post(id):
+def get_post(cust_number):
     return get_db().execute(
-                'SELECT id, name, address, created'
+                'SELECT cust_number, name, address, created'
                 ' FROM customer'
-                ' WHERE id = ?',
-                (id,)
+                ' WHERE cust_number = ?',
+                (cust_number,)
             ).fetchone()
 
 
 @bp.route('/<int:id>/update', methods=('GET', 'POST'))
-def update(id):
-    cust = get_post(id)
+def update(cust_number):
+    cust = get_post(cust_number)
 
     if request.method == 'POST':
         title = request.form['title']
@@ -71,8 +71,8 @@ def update(id):
             db = get_db()
             db.execute(
                 'UPDATE customer SET title = ?, body = ?'
-                ' WHERE id = ?',
-                (title, body, id)
+                ' WHERE cust_number = ?',
+                (title, body, cust_number)
             )
             db.commit()
             return redirect(url_for('customers.index'))
@@ -80,9 +80,9 @@ def update(id):
     return render_template('customers/update.html', cust=cust)
 
 @bp.route('/<int:id>/delete', methods=('POST',))
-def delete(id):
-    get_post(id)
+def delete(cust_number):
+    get_post(cust_number)
     db = get_db()
-    db.execute('DELETE FROM customer WHERE id = ?', (id,))
+    db.execute('DELETE FROM customer WHERE cust_number = ?', (cust_number,))
     db.commit()
     return redirect(url_for('customers.index'))

@@ -20,7 +20,7 @@ def test_create(client, app):
 
     with app.app_context():
         db = get_db()
-        count = db.execute('SELECT COUNT(id) FROM customer').fetchone()[0]
+        count = db.execute('SELECT COUNT(cust_number) FROM customer').fetchone()[0]
         assert count == 2
 
 

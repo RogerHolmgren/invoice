@@ -13,7 +13,7 @@
           <h1>{{ customers['name'] }}</h1>
           <div class="about">by {{ customers['name'] }} on {{ customers['created'].strftime('%Y-%m-%d') }}</div>
         </div>
-          <a class="action" href="{{ url_for('customers.update', id=customers['id']) }}">Ändra</a>
+          <a class="action" href="{{ url_for('customers.update', id=customers['cust_number']) }}">Ändra</a>
       </header>
       <p class="body">{{ customers['address'] }}</p>
     </article>
