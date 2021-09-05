@@ -10,15 +10,16 @@
     <article class="customers">
       <header>
         <div>
+          
           <h1>{{ customer['name'] }}</h1>
-          <div class="about">by {{ customer['name'] }} on {{ customer['created'].strftime('%Y-%m-%d') }}</div>
         </div>
           <a class="action" href="{{ url_for('customers.update', cust_number=customer['cust_number']) }}">Ändra</a>
       </header>
-      <p class="body">{{ customer['cust_number'] }}</p>
-      <p class="body">{{ customer['address'] }}</p>
-      <p class="body">{{ customer['postal_number'] }}</p>
-      <p class="body">{{ customer['postal_address'] }}</p>
+      
+      <p class="body">#{{ customer['cust_number'] }}</p>
+      <p class="body">Adr: {{ customer['address'] }}</p>
+      <p class="body">pnr: {{ customer['postal_number'] }}</p>
+      <p class="body">ort: {{ customer['postal_address'] }}</p>
     </article>
     {% if not loop.last %}
       <hr>

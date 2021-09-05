@@ -17,3 +17,7 @@ CREATE TABLE customer (
   postal_address TEXT NOT NULL,
   created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
+
+INSERT INTO customer (cust_number, name, address, postal_number, postal_address, created)
+VALUES
+  (42, 'Nisse', 'Gatan 2', '123 45', 'Staden', '2018-01-01 00:00:00');

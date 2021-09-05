@@ -1,19 +1,34 @@
 {% extends 'base.html' %}
 
 {% block header %}
-  <h1>{% block title %}Edit "{{ cust['name'] }}"{% endblock %}</h1>
+  <h1>{% block title %}Uppdatera "{{ cust['name'] }}"{% endblock %}</h1>
 {% endblock %}
 
 {% block content %}
   <form method="post">
+    <label for="cust_number">Kundnummer</label>
+    <input name="cust_number" id="cust_number" value="{{ cust['cust_number'] }}" disabled>
+
     <label for="name">Namn</label>
-    <input name="name" id="name"
-      value="{{ request.form['name'] or cust['name'] }}" required>
+    <input name="name" id="name" value="{{ request.form['name'] or cust['name'] }}" required>
+
     <label for="address">Adress</label>
-    <textarea name="address" id="address">{{ request.form['address'] or cust['address'] }}</textarea>
-    <input type="submit" value="Spara">
+    <input name="address" id="address" value="{{ request.form['address'] or cust['address'] }}">
+
+    <label for="postal_number">Postnummer</label>
+    <input name="postal_number" id="postal_number" value="{{ request.form['postal_number'] or cust['postal_number'] }}">
+
+    <label for="postal_address">Postadress</label>
+    <input name="postal_address" id="postal_address" value="{{ request.form['postal_address'] or cust['postal_address'] }}">
+
+    <div>
+      <input type="submit" value="Spara">
+      <a href="{{ url_for('customers.index') }}"><button>Avbryt</button></a>
+    </div>
   </form>
+
   <hr>
+
   <form action="{{ url_for('customers.delete', cust_number=cust['cust_number']) }}" method="post">
     <input class="danger" type="submit" value="Ta bort" onclick="return confirm('Vill du verkligen ta bort en kund?');">
   </form>

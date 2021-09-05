@@ -13,7 +13,7 @@ def index():
     customers = db.execute(
         'SELECT cust_number, name, address, postal_number, postal_address, created'
         ' FROM customer'
-        ' ORDER BY created DESC'
+        ' ORDER BY cust_number ASC'
     ).fetchall()
     return render_template('customers/index.html', customers=customers)
 
@@ -49,7 +49,7 @@ def create():
 
 def get_post(cust_number):
     return get_db().execute(
-                'SELECT cust_number, name, address, created'
+                'SELECT cust_number, name, address, postal_number, postal_address, created'
                 ' FROM customer'
                 ' WHERE cust_number = ?',
                 (cust_number,)
@@ -61,7 +61,6 @@ def update(cust_number):
     cust = get_post(cust_number)
 
     if request.method == 'POST':
-        cust_number = request.form['cust_number']
         name = request.form['name']
         address = request.form['address']
         postal_number = request.form['postal_number']
